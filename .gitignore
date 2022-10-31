@@ -1,0 +1,13 @@
+*.exe
+*.out
+*.zip
+*.pdb
+
+.idea
+out
+*.iml
+
+.vscode
+cmake-build-debug
+build
+out
