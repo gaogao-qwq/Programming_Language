@@ -1,3 +1,5 @@
+Cargo.lock
+
 *.exe
 *.out
 *.zip
@@ -11,3 +13,4 @@ out
 cmake-build-debug
 build
 out
+target
