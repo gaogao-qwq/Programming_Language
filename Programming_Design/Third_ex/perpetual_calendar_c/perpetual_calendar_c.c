@@ -54,13 +54,11 @@ int **generate_calendar(int y) {
 
 void print_calendar(int **calendar, int y) {
     int n = 365;
-    int *date = months;
-    if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) {
-        ++n, date = months_leap;
-    }
+    if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) ++n;
 
     int d = 0, m = 0;
     for (int i = 0; i < n; ++i) {
+        // 打印月及日历抬头指示
         if (m != calendar[i][0]) {
             d = 0, ++m;
             printf("\n\n\n");
@@ -73,12 +71,15 @@ void print_calendar(int **calendar, int y) {
             printf("%3s", "Fr");
             printf("%3s\n", "Sa");
         }
+        // 补齐空格
         while(d != calendar[i][2]) {
             printf("   ");
             ++d;
         }
+        // 打印日
         printf("%3d", calendar[i][1]);
         ++d;
+        // 换行
         if (d > 6) {
             printf("\n");
             d = 0;
