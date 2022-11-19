@@ -3,26 +3,25 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-// 格里高利闰年规则：
-// 公元年分非4的倍数，为平年。
-// 公元年分为4的倍数但非100的倍数，为闰年。
-// 公元年分为100的倍数但非400的倍数，为平年。
-// 公元年分为400的倍数为闰年。
-
-// 首先将问题先转化为求 1年 1月 1日 至 所求年1月 1日 间的总天数 w
-// 我知道你很想用 if else 嵌套，但实际上用数学的思路，一个公式足矣
-// w = 365 * y + y / 4 - y / 100 + y / 400
-// 接着对求得的 w 取模 7 即可得知这一天是星期几
-
-// 或者如果你是OI人，也可以直接用蔡勒公式
-// 下面的 compute_date() 实际上用的就是蔡勒公式的思想
-// 但是蔡勒公式的缺点在于：无法精确计算按格里高利历 1582年 10月 15日之前的任意任意一天是周几
-// 因为教皇格里戈八世在1582年 2月 24日颁布法令，永远抹去了1582年 10月 5日到1582年 10月 14日。
-// 换句话说，如果我们这样按照格里高利历向前推算，公元1年1月1日应当为周六而非周一
-
 // 造俩数组当 map 使
 int months[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 int months_leap[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+inline int accumulate(int arr[], int begin, int end) {
+    int sum = 0;
+    for (int i = begin; i < end; ++i) sum += arr[i];
+    return sum;
+}
+
+// 24个参数实现 O(1) 复杂度用于计算 1582年 10月 15日前的年份
+inline int compute_old_date(int y, int m, int d) {
+    int yd = 365 * (y - 1) + (y - 1) / 4 - (y - 1) / 100 + (y - 1) / 400 + 10;
+    // if isLeap:
+    if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0)
+        return (yd + accumulate(months_leap, 0, m - 1) + d) % 7;
+
+    return (yd + accumulate(months, 0, m - 1) + d) % 7;
+}
 
 inline int compute_date(int y, int m, int d) {
     // 蔡勒公式改编实现 O(1) 时间复杂度查找到任意年任意月任意天是周几
@@ -46,10 +45,22 @@ int **generate_calendar(int y) {
     // 生成 calendar 数组
     int m = 1, d = 1;
     for (int i = 0; i < n; ++i) {
-        calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_date(y, m, d);
-        if (++d > date[m - 1]) {
-            ++m, d = 1;
+        // 1582年前用 compute_old_date
+        if (y < 1582)
+            calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_old_date(y, m, d);
+        // 1582年后用蔡勒公式
+        if (y > 1582)
+            calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_date(y, m, d);
+        // 1582年比较特殊，写个特判
+        if (y == 1582) {
+            if (m < 10) calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_old_date(y, m, d);
+            if (m == 10) {
+                if (d < 15) calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_old_date(y, m, d);
+                else calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_date(y, m, d);
+            }
+            if (m > 10) calendar[i][0] = m, calendar[i][1] = d, calendar[i][2] = compute_date(y, m, d);
         }
+        if (++d > date[m - 1]) ++m, d = 1;
     }
     return calendar;
 }
@@ -65,20 +76,15 @@ void print_calendar(int **calendar, int y) {
             d = 0, ++m;
             printf("\n\n\n");
             printf("%11d月\n", calendar[i][0]);
-            printf("%3s", "Su");
-            printf("%3s", "Mo");
-            printf("%3s", "Tu");
-            printf("%3s", "We");
-            printf("%3s", "Th");
-            printf("%3s", "Fr");
-            printf("%3s\n", "Sa");
+            printf(" Su Mo Tu We Th Fr Sa\n");
         }
         // 补齐空格
-        while(d != calendar[i][2]) {
+        while (d != calendar[i][2]) {
             printf("   ");
             ++d;
         }
         // 打印日
+        if (y == 1582 && m == 10 && calendar[i][1] == 5) i += 10;
         printf("%3d", calendar[i][1]);
         ++d;
         // 换行
