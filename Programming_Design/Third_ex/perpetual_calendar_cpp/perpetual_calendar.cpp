@@ -93,7 +93,7 @@ void print_calendar(vector<vector<int>> calendar, int y) {
                              << setw(3) << "Sa" << endl;
         }
         // 补齐空格
-        while(d != calendar[i][2]) {
+        while (d != calendar[i][2]) {
             cout << "   ";
             ++d;
         }
