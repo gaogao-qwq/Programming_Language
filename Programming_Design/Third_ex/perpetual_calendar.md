@@ -44,9 +44,9 @@ inline int compute_date(int y, int m, int d) {
     int md = 0;
     // if isLeap:
     if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0 && y)
-        accumulate(months_leap.begin(), months_leap.begin() + m - 1, 0)
+        md = accumulate(months_leap.begin(), months_leap.begin() + m - 1, 0)
     else
-        accumulate(months.begin(), months.begin() + m - 1, 0);
+        md = accumulate(months.begin(), months.begin() + m - 1, 0);
     return (yd + md + d) % 7;
 }
 ```
