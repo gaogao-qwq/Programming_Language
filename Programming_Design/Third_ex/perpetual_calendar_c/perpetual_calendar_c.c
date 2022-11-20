@@ -4,10 +4,10 @@
 #include <stdbool.h>
 
 // 造俩数组当 map 使
-int months[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-int months_leap[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int months[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int months_leap[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-inline int accumulate(int arr[], int begin, int end) {
+inline int accumulate(const int *arr, int begin, int end) {
     int sum = 0;
     for (int i = begin; i < end; ++i) sum += arr[i];
     return sum;
@@ -15,9 +15,10 @@ inline int accumulate(int arr[], int begin, int end) {
 
 // 24个参数实现 O(1) 复杂度用于计算 1582年 10月 15日前的年份
 inline int compute_old_date(int y, int m, int d) {
-    int yd = 365 * (y - 1) + (y - 1) / 4 - (y - 1) / 100 + (y - 1) / 400 + 10;
+    // 这里需要注意一点，由于 1582 年格里高利历实行前是不存在“能被100整除且不能被400整除的年份是闰年”这种规定的
+    int yd = 365 * (y - 1) + (y - 1) / 4 + 5;
     // if isLeap:
-    if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0)
+    if (y % 4 == 0)
         return (yd + accumulate(months_leap, 0, m - 1) + d) % 7;
 
     return (yd + accumulate(months, 0, m - 1) + d) % 7;
@@ -32,8 +33,9 @@ inline int compute_date(int y, int m, int d) {
 int **generate_calendar(int y) {
     int n = 365;
     // 做个浅拷贝足矣
-    int *date = months;
-    if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0)
+    const int *date = months;
+    // 这里需要注意一点，由于 1582 年格里高利历实行前是不存在“能被100整除且不能被400整除的年份是闰年”这种规定的
+    if (((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) || (y < 1582 && y % 4 == 0))
         ++n, date = months_leap;
 
     // 初始化 calendar 数组

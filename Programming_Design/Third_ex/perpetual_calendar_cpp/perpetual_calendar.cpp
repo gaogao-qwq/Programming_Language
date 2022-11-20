@@ -2,8 +2,8 @@
 using namespace std;
 
 // 造俩数组当 map 使
-vector<int> months{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-vector<int> months_leap{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const vector<int> months{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const vector<int> months_leap{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 // 24个参数实现 O(1) 复杂度用于计算 1582年 10月 15日前的年份
 inline int compute_old_date(int y, int m, int d) {
