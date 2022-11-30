@@ -80,7 +80,7 @@ $$
 $$
 \begin{aligned}
     w&=(365\times y+\left\lfloor\cfrac{y}{4}\right\rfloor-\left\lfloor\cfrac{y}{100}\right\rfloor+\left\lfloor\cfrac{y}{400}\right\rfloor+\left\lfloor\cfrac{153\times m-457}{5}\right\rfloor+d-306)\text{ mod }7\\
-     &=w_1+w_3+d-w_2
+     &=(w_1+w_3+d-w_2)\text{ mod }7
 \end{aligned}
 $$
 
@@ -93,7 +93,7 @@ $$
 * 蔡勒公式的后半段 $w_2$ 中计算日期的方法实际上是巧妙地绕开了 2月的，因为平年和闰年唯一的区别就是平年 2月只有 28天，而闰年 二月有 29天，如果只计算3 月到 12月，那么无论如何天数都恒为 306天。因此，蔡勒公式的后半段中的常量 306代表的是 $y$ 年 3月 1日到 $y$ 年 12月 31日之间经过的时间：
 
 $$
-w_2=M_3+M_4+\cdots+M_12=31+30+\cdots+31=306
+w_2=M_3+M_4+\cdots+M_1=31+30+\cdots+31=306
 $$
 
 $M_n$ 代表第 $n$ 月的天数。
