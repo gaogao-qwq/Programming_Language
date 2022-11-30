@@ -1,11 +1,3 @@
----
-layout: perpetual_calendar
-title: 程序设计课题——万年历的实现与思考
-date: 2022-11-18 20:23:43
-tags: [文章, 算法, 万年历, 蔡勒公式, C++]
-mathjax: true
----
-
 # 程序设计课题——万年历的实现与思考
 
 ## 思考
