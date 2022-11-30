@@ -1,3 +1,11 @@
+---
+layout: perpetual_calendar
+title: 程序设计课题——万年历的实现与思考
+date: 2022-11-18 20:23:43
+tags: [文章, 算法, 万年历, 蔡勒公式, C++]
+mathjax: true
+---
+
 # 程序设计课题——万年历的实现与思考
 
 ## 思考
@@ -75,9 +83,16 @@ $$
 w = (365\times y+\left\lfloor\cfrac{y}{4}\right\rfloor-\left\lfloor\cfrac{y}{100}\right\rfloor+\left\lfloor\cfrac{y}{400}\right\rfloor+\left\lfloor\cfrac{153\times m-457}{5}\right\rfloor+d-306)\text{ mod }7
 $$
 
-公式中的符号含义和原公式相似，但相较于朴素法公式有需要注意的地方：
+粗看似乎很难理解公式中各个参数和常量分别代表什么含义，所以我们先将公式分为几个部分：
 
-* 公式前半部分 $w_1$ 中的 $y$ 与朴素算法公式中的 $y$ 代表的含义是不一样的，朴素算法中 $y$ 实际上是不包含所求年的，而蔡勒公式前半部分 $w_1$ 中的 $y$ 是包含所求年的。
+$$
+\begin{aligned}
+    w&=(365\times y+\left\lfloor\cfrac{y}{4}\right\rfloor-\left\lfloor\cfrac{y}{100}\right\rfloor+\left\lfloor\cfrac{y}{400}\right\rfloor+\left\lfloor\cfrac{153\times m-457}{5}\right\rfloor+d-306)\text{ mod }7\\
+     &=w_1+w_3+d-w_2
+\end{aligned}
+$$
+
+* 首先我们来看 $w_1$。需要注意的是，公式前半部分 $w_1$ 中的 $y$ 与朴素算法公式中的 $y$ 代表的含义是不一样的，朴素算法中 $y$ 实际上是不包含所求年的，而蔡勒公式前半部分 $w_1$ 中的 $y$ 是包含所求年的。
 
 $$
 w_1 = 365\times y+\left\lfloor\cfrac{y}{4}\right\rfloor-\left\lfloor\cfrac{y}{100}\right\rfloor+\left\lfloor\cfrac{y}{400}\right\rfloor
@@ -274,10 +289,11 @@ int main() {
 
 你知道吗，目前似乎只有华为 EMUI 和 iOS 的自带日历是准确删去了 `1582.10.05——1582.10.14` 这段时间并且 `1.01.01` 准确显示为周六的，但是iPadOS点进 `1582.10` 则会崩溃。
 
-![](1582EMUI.jpg)
-![](1EMUI.jpg)
+![](1582EMUI.jpg "EMUI 日历App 1582年 10月")
+![](1EMUI.jpg "EMUI 日历App 1年 1月")
 ![](1iPadOS.PNG)
 
-另外 UNIX 系统有一条指令 `cal` 可以直接打印日历，但是其采用的是大英帝国及其殖民地（包含今天的美国）在 1752 才采用格里高利历，所以实际上UNIX `cal` 指令打印的日历削除的是 `1752.09.03——1752.09.13`。
+另外 UNIX 系统有一条指令 `cal` 可以直接打印日历，但是其根据的是大英帝国及其殖民地（包含今天的美国）在 1752 采用格里高利历，所以实际上UNIX `cal` 指令打印的日历中被削除的日期是 `1752.09.03——1752.09.13`。
 
-![](UNIX.PNG)
+![](Alpine.PNG "Alpine")
+![](Ubuntu.png "Ubuntu")
