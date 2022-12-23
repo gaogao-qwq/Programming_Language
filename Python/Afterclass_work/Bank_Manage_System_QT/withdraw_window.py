@@ -29,7 +29,7 @@ class WithdrawWindow(QWidget, Ui_withdraw_window):
     @pyqtSlot()
     def on_withdrawButton_clicked(self):
         if float(self.depositTextEdit.toPlainText()) <= 0:
-            QMessageBox.warning(self, "喜报", "转账金额不得为 0 或负数", QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
+            QMessageBox.warning(self, "喜报", "提现金额不得为 0 或负数", QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
             return
 
         if self.user_list.user_list[self.card_num].balance - float(self.depositTextEdit.toPlainText()) < 0:
