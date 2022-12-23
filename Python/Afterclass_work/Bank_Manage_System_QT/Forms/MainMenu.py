@@ -22,6 +22,13 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout.addItem(spacerItem)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label.setFont(font)
+        self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
         self.setupButton = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(16)
@@ -76,6 +83,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "主菜单"))
+        self.label.setText(_translate("MainWindow", "Qt银行管理系统"))
         self.setupButton.setText(_translate("MainWindow", "开户"))
         self.checkButton.setText(_translate("MainWindow", "查询"))
         self.depositButton.setText(_translate("MainWindow", "存款"))
