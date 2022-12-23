@@ -9,18 +9,18 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_VericationWindow(object):
-    def setupUi(self, VericationWindow):
-        VericationWindow.setObjectName("VericationWindow")
-        VericationWindow.resize(275, 173)
-        self.gridLayout = QtWidgets.QGridLayout(VericationWindow)
+class Ui_VerificationWindow(object):
+    def setupUi(self, VerificationWindow):
+        VerificationWindow.setObjectName("VerificationWindow")
+        VerificationWindow.resize(275, 173)
+        self.gridLayout = QtWidgets.QGridLayout(VerificationWindow)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.cardNumLabel = QtWidgets.QLabel(VericationWindow)
+        self.cardNumLabel = QtWidgets.QLabel(VerificationWindow)
         self.cardNumLabel.setObjectName("cardNumLabel")
         self.verticalLayout.addWidget(self.cardNumLabel)
-        self.cardNumTextEdit = QtWidgets.QPlainTextEdit(VericationWindow)
+        self.cardNumTextEdit = QtWidgets.QPlainTextEdit(VerificationWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -30,10 +30,10 @@ class Ui_VericationWindow(object):
         self.cardNumTextEdit.setMaximumSize(QtCore.QSize(16777215, 30))
         self.cardNumTextEdit.setObjectName("cardNumTextEdit")
         self.verticalLayout.addWidget(self.cardNumTextEdit)
-        self.passwordLabel = QtWidgets.QLabel(VericationWindow)
+        self.passwordLabel = QtWidgets.QLabel(VerificationWindow)
         self.passwordLabel.setObjectName("passwordLabel")
         self.verticalLayout.addWidget(self.passwordLabel)
-        self.passwordTextEdit = QtWidgets.QPlainTextEdit(VericationWindow)
+        self.passwordTextEdit = QtWidgets.QPlainTextEdit(VerificationWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -44,26 +44,26 @@ class Ui_VericationWindow(object):
         self.passwordTextEdit.setObjectName("passwordTextEdit")
         self.verticalLayout.addWidget(self.passwordTextEdit)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 2)
-        self.loginButton = QtWidgets.QPushButton(VericationWindow)
+        self.loginButton = QtWidgets.QPushButton(VerificationWindow)
         font = QtGui.QFont()
         font.setPointSize(16)
         self.loginButton.setFont(font)
         self.loginButton.setObjectName("loginButton")
         self.gridLayout.addWidget(self.loginButton, 1, 0, 1, 1)
-        self.backButton = QtWidgets.QPushButton(VericationWindow)
+        self.backButton = QtWidgets.QPushButton(VerificationWindow)
         font = QtGui.QFont()
         font.setPointSize(16)
         self.backButton.setFont(font)
         self.backButton.setObjectName("backButton")
         self.gridLayout.addWidget(self.backButton, 1, 1, 1, 1)
 
-        self.retranslateUi(VericationWindow)
-        QtCore.QMetaObject.connectSlotsByName(VericationWindow)
+        self.retranslateUi(VerificationWindow)
+        QtCore.QMetaObject.connectSlotsByName(VerificationWindow)
 
-    def retranslateUi(self, VericationWindow):
+    def retranslateUi(self, VerificationWindow):
         _translate = QtCore.QCoreApplication.translate
-        VericationWindow.setWindowTitle(_translate("VericationWindow", "登录"))
-        self.cardNumLabel.setText(_translate("VericationWindow", "卡号"))
-        self.passwordLabel.setText(_translate("VericationWindow", "密码"))
-        self.loginButton.setText(_translate("VericationWindow", "登录"))
-        self.backButton.setText(_translate("VericationWindow", "返回"))
+        VerificationWindow.setWindowTitle(_translate("VerificationWindow", "登录"))
+        self.cardNumLabel.setText(_translate("VerificationWindow", "卡号"))
+        self.passwordLabel.setText(_translate("VerificationWindow", "密码"))
+        self.loginButton.setText(_translate("VerificationWindow", "登录"))
+        self.backButton.setText(_translate("VerificationWindow", "返回"))

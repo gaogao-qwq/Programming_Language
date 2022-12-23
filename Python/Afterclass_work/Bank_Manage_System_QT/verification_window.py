@@ -2,12 +2,12 @@ from PyQt6 import QtGui
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
-from Forms.VerificationWindow import Ui_VericationWindow
+from Forms.VerificationWindow import Ui_VerificationWindow
 from user import UserList
 import main_menu
 
 
-class VerificationWindow(QDialog, Ui_VericationWindow):
+class VerificationWindow(QDialog, Ui_VerificationWindow):
     def __init__(self, user_list: UserList, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.setWindowFlag(Qt.WindowType.Dialog)
