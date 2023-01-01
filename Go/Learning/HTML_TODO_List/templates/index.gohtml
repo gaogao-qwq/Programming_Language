@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>TODO</title>
+</head>
+<body>
+    <h1>{{ .Title }}</h1>
+    <ul>
+        {{ range .Todos }}
+            {{ if .Done }}
+                <li class="done">{{ .Item }}</li>
+            {{ else }}
+                <li>{{ .Item }}</li>
+            {{ end }}
+        {{ end }}
+    </ul>
+    <script src="/static/js/script.js" type="text/javascript"></script>
+</body>
+</html>
