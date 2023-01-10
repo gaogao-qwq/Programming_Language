@@ -1,0 +1,69 @@
+<!--这是注释-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World!</title>
+    <!--内嵌 CSS 样式表-->
+    <style>
+      body {
+        background-color: linen;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>你好，世界！这是一个一级标题</h1>
+    <h2>这是一个二级标题</h2>
+    <p>这是一个段落<br>&lt;br&gt;代表换行符，可以用来在段落中换行</p>
+    <h3>这是一个三级标题</h3>
+
+    <!--格式化文本-->
+    <p>
+      <strong>强调并加粗文本</strong><br>
+      <b>加粗文本</b><br>
+      <em>强调并倾斜文本</em><br>
+      <i>倾斜文本</i><br>
+      <small>小号字体</small><br>
+      <sub>下标文本</sub><sup>上标文本</sup><br>
+      <ins>文档其余部分之外的插入文本（一般配合超链接）</ins><br>
+      <del>删除线文本</del><br>
+      <code>console.log("Hello World!") // 代码文本</code><br>
+      <kbd>通过键盘输入的文本</kbd><br>
+      <samp>来自另一个程序或计算系统的示例或引用输出</samp><br>
+      <var>变量</var>
+      <pre>预格式化文本  其中的所有空格和换行符都会保留
+字体也会呈现为等宽字体</pre>
+      <abbr>&lt;abbr&gt;</abbr> 代表 abbreviation，即缩写文本<br>
+      <address>文档作者的联系信息文本，自带换行</address>
+      <bdo>定义标签中的文字方向</bdo>
+      <blockquote>
+      <pre>哲学家们只是用不同的方式解释世界，而问题在于改变世界。
+                                  ——Karl Marx</pre>
+      </blockquote>
+      <q>短引用</q><br>
+      <cite>对某个文献的引用</cite><br>
+      <dfn>定义术语（definition）</dfn><br>
+      <!--按照作用的不同，可以将这些用来格式化文本的标签分为两类：
+      物理标签：这类标签用来为设置文本的外观；
+      逻辑标签：这类标签用来赋予文本一些逻辑或语义值。-->
+    </p>
+
+    <!--超链接-->
+    <p>
+      <a href="https://blog.gaogaoqwq.com" target="_blank">搞搞的博客</a>
+    </p>
+
+    <!--插入图片-->
+    <p>
+      <!--绝对路径-->
+      <img src="https://blog.gaogaoqwq.com/img/avatar.png" alt="avator" width="100" height="100">
+      <img src="" alt="">
+      <!--picture 标签允许针对不同屏幕大小选择不同大小的图片-->
+      <picture>
+        <source media="(min-width: )" srcset="">
+      </picture>
+    </p>
+
+  </body>
+</html>
