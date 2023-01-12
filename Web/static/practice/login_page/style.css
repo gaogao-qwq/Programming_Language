@@ -17,8 +17,8 @@ html, body {
 
 /* form 基本样式 */
 .form {
-	width: 270px;
-	height: 270px;
+	width: 300px;
+	height: 350px;
 	display: flex;
 	flex-direction: column;
 	padding: 40px;
@@ -84,6 +84,19 @@ html, body {
 .button-container button:focus,
 .form input:focus {
 	outline: 0;
+}
+
+/* 输入框选中动画 */
+.form input {
+	overflow: hidden;
+	transition: 0.4s;
+}
+.form input:focus {
+	color: rgb(206, 218, 214);
+	background-color: rgba(52, 59, 62, 0.5);
+}
+.form input:focus::placeholder {
+	color: #e7e7e7;
 }
 
 /* 按钮悬停动画 */

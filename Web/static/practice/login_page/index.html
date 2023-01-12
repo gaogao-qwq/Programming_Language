@@ -9,25 +9,59 @@
 </head>
 <body>
 	<div class="container" id="container">
-		<form action="" class="form" id="login-form">
+		<form action="" class="form" id="login-form" onsubmit="return loginCheck()">
 			<h2>登录</h2>
-			<input type="text" name="username" placeholder="用户名">
-			<input type="text" name="password" placeholder="密码">
+			<input type="text" id="login-username-input" name="username" placeholder="用户名" maxlength="100">
+			<input type="text" id="login-password-input" name="password" placeholder="密码" maxlength="100">
 			<div class="button-container">
-				<button type="submit">登录</button>
+				<button type="submit" id="login-button">登录</button>
 				<button type="button" id="register-switch">没有账号，注册</button>
 			</div>
 		</form>
-		<form action="" class="form" id="register-form">
+		<form action="" class="form" id="register-form" onsubmit="return registerCheck()">
 			<h2>注册</h2>
-			<input type="text" name="username" placeholder="用户名">
-			<input type="text" name="password" placeholder="密码">
+			<input type="text" id="register-email-input" name="email" placeholder="注册邮箱" maxlength="100">
+			<input type="text" id="register-username-input" name="username" placeholder="用户名" maxlength="100">
+			<input type="text" id="register-password-input" name="password" placeholder="密码" maxlength="100">
 			<div class="button-container">
-				<button type="button">注册</button>
+				<button type="submit" id="register-button">注册</button>
 				<button type="button" id="login-switch">已有账号，登录</button>
 			</div>
 		</form>
 	</div>
+	<script>
+		function loginCheck() {
+			const form = document.getElementById('login-form')
+
+			if (!form['login-username-input'].value) {
+				alert('登录用户名不能为空')
+				return false
+			}
+			if(!form['login-password-input'].value) {
+				alert('登录密码不能为空')
+				return false
+			}
+			return true
+		}
+
+		function registerCheck() {
+			const form = document.getElementById('register-form')
+
+			if (!form['register-email-input'].value) {
+				alert('注册邮箱不能为空')
+				return false
+			}
+			if (!form['register-username-input'].value) {
+				alert('注册用户名不能为空')
+				return false
+			}
+			if(!form['register-password-input'].value) {
+				alert('注册密码不能为空')
+				return false
+			}
+			return true
+		}
+	</script>
 	<script src="./script.js"></script>
 </body>
 <footer></footer>
