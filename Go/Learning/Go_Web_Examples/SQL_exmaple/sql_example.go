@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// 插入数据
-	db, err := sql.Open("mysql", "root:8603Ace!@tcp(127.0.0.1:3306)/test_db")
+	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/test_db")
 	checkErr(err)
 
 	stmt, err := db.Prepare("insert test_db.userinfo set username=?,created=?")
