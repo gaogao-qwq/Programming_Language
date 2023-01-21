@@ -29,9 +29,11 @@
 			</div>
 		</form>
 	</div>
+
 	{{if .IsSuccess}}
 	{{else}}<script>alert('{{.FailedMsg}}')</script>
 	{{end}}
+
 	<script>
 		function loginCheck() {
 			const form = document.getElementById('login-form')
