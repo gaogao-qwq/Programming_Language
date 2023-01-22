@@ -10,7 +10,7 @@ html, body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: url("/static/background.jpg") fixed no-repeat;
+	background: url("/web/static/background.jpg") fixed no-repeat;
 	background-size: cover;
 	filter: brightness(75%);
 }
