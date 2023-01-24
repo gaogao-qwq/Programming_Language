@@ -8,7 +8,10 @@
 </head>
 <body>
 <div>
-  <button type="button">退出账号</button>
+  <form action="/home" method="post">
+    <h2>欢迎用户 {{.}}</h2>
+    <button type="submit">退出账号</button>
+  </form>
 </div>
 </body>
 </html>
