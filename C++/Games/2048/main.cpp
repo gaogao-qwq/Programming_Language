@@ -3,6 +3,7 @@
 #include <random>
 #include <vector>
 #include <stdlib.h>
+#include <ncurses/ncurses.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 	#include <Windows.h>
@@ -23,8 +24,8 @@ private:
 
 public:
 	explicit chessPlate() : mat(4, std::vector<int>(4, 0)), e(r()) {
-		mat[get_random_int(e)][get_random_int(e)] = 2;
-		mat[get_random_int(e)][get_random_int(e)] = 2;
+		mat[get_random_coord(e)][get_random_coord(e)] = 2;
+		mat[get_random_coord(e)][get_random_coord(e)] = 2;
 	}
 	
 	inline bool move_up() {
@@ -145,18 +146,17 @@ public:
 	}
 
 	inline void next_step() {
-		if (full()) return;
-		int r = get_random_int(e), c = get_random_int(e);
+		if (is_full()) return;
+		int r = get_random_coord(e), c = get_random_coord(e);
 		while(mat[r][c] != 0) {
-			r = get_random_int(e), c = get_random_int(e);
+			r = get_random_coord(e), c = get_random_coord(e);
 		}
 		mat[r][c] = 2;
 		++steps;
 		print_plate();
 	}
 
-private:
-	bool full() {
+	bool is_full() {
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
 				if (mat[i][j] == 0) return false;
@@ -167,39 +167,56 @@ private:
 		return true;
 	}
 
-	int get_random_int(std::default_random_engine &e) {
+	bool is_over() {
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				if (mat[i][j] != mat[i][j + 1] || mat[i][j] != mat[i + 1][j]) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+private:
+	int get_random_coord(std::default_random_engine &e) {
 		std::uniform_int_distribution<int> uniform_dist(0, 3);
 		return uniform_dist(e);
 	}
 };
 
 int main(int argc, char *argv[]) {
-	auto game = new chessPlate();
-	game->print_plate();
+	initscr();
 	while(true) {
-		if (KEYDOWN(VK_UP) || KEYDOWN('J')) {
-			if (game->move_up()) game->next_step();
-			std::cin.sync();
-			Sleep(100);
-			continue;
-		}
-		if (KEYDOWN(VK_DOWN) || KEYDOWN('K')) {
-			if (game->move_down()) game->next_step();
-			std::cin.sync();
-			Sleep(100);
-			continue;
-		}
-		if (KEYDOWN(VK_LEFT) || KEYDOWN('H')) {
-			if (game->move_left()) game->next_step();
-			std::cin.sync();
-			Sleep(100);
-			continue;
-		}
-		if (KEYDOWN(VK_RIGHT) || KEYDOWN('L')) {
-			if (game->move_right()) game->next_step();
-			std::cin.sync();
-			Sleep(100);
-			continue;
+		auto game = new chessPlate();
+		game->print_plate();
+		while (true) {
+			if (game->is_full()) {}
+			if (KEYDOWN(VK_UP) || KEYDOWN('J')) {
+				if (game->move_up()) game->next_step();
+				std::cin.sync();
+				Sleep(100);
+				continue;
+			}
+			if (KEYDOWN(VK_DOWN) || KEYDOWN('K')) {
+				if (game->move_down()) game->next_step();
+				std::cin.sync();
+				Sleep(100);
+				continue;
+			}
+			if (KEYDOWN(VK_LEFT) || KEYDOWN('H')) {
+				if (game->move_left()) game->next_step();
+				std::cin.sync();
+				Sleep(100);
+				continue;
+			}
+			if (KEYDOWN(VK_RIGHT) || KEYDOWN('L')) {
+				if (game->move_right()) game->next_step();
+				std::cin.sync();
+				Sleep(100);
+				continue;
+			}
 		}
 	}
+	endwin();
 }
