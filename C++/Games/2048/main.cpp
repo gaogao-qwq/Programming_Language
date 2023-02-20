@@ -260,6 +260,11 @@ private:
 
 int main(int argc, char *argv[]) {
 	auto game = new gameWindow;
+
+	// TODO: make a game menu.
+
+	// TODO: make a scoreboard.
+
 	game->init_scr();
 	game->listen_key();
 	
