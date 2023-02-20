@@ -1,15 +1,18 @@
+#include <curses.h>
+#include <cwchar>
 #include <iostream>
 #include <iomanip>
+#include <ncurses.h>
 #include <random>
+#include <string>
 #include <vector>
 #include <stdlib.h>
-#include <ncurses/ncurses.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-	#include <Windows.h>
-	#define KEYDOWN [](int vk_code){ return GetAsyncKeyState(vk_code) < 0; }
+	#include <ncurses/ncurses.h>
 	#define clrscr "cls"
 #else
+	#include <ncurses.h>
 	#define clrscr "clear"
 #endif
 
@@ -132,17 +135,27 @@ public:
 		return is_moved ? true : false;
 	}
 
-	inline void print_plate() {
-		system(clrscr);
-		std::cout << std::setw(16) << steps << std::endl;
-		std::cout << "+------+------+------+------+" << std::endl;
+	inline void print_plate(WINDOW *window) {
+		wrefresh(window);
+		int y = 1, x = 10;
+		int win_max_y = 0, win_may_x = 0;
+		getmaxyx(window, win_max_y, win_may_x);
+		mvwprintw(window, y++, win_may_x / 2 - 6, "%4d%s", steps, " step");
+		mvwprintw(window, y++, x, "%s", "+------+------+------+------+");
 		for (int i = 0; i < 4; ++i) {
+			y = i * 2 + 3, x = 10;
 			for (int j = 0; j < 4; ++j) {
-				std::cout << "|";
-				std::cout << std::setw(5) << mat[i][j] << " ";
+				mvwprintw(window, y, x, "%s%5d%s", "|", mat[i][j], " ");
+				x += 7;
 			}
-			std::cout << "|" << std::endl << "+------+------+------+------+" << std::endl;
+			mvwprintw(window, y++, x, "%s", "|");
+			mvwprintw(window, y++, 10, "%s", "+------+------+------+------+");
 		}
+		mvwprintw(window, y++, 1, "%s", "k/KEY_UP: move up, KEY_DOWN: move down,");
+		mvwprintw(window, y++, 1, "%s", "h/KEY_LEFT: move left, l/KEY_RIGHT: move right.");
+		move(0, 0);
+		refresh();
+		wrefresh(window);
 	}
 
 	inline void next_step() {
@@ -153,7 +166,6 @@ public:
 		}
 		mat[r][c] = 2;
 		++steps;
-		print_plate();
 	}
 
 	bool is_full() {
@@ -185,38 +197,82 @@ private:
 	}
 };
 
-int main(int argc, char *argv[]) {
-	initscr();
-	while(true) {
-		auto game = new chessPlate();
-		game->print_plate();
+class gameWindow {
+public:
+	int height = 18;
+	int width = 50;
+	int scr_max_y;
+	int scr_max_x;
+
+public:
+	explicit gameWindow() {
+		game_mat = new chessPlate;
+	}
+
+	inline void init_scr() {
+		initscr();
+		noecho();
+		cbreak();
+		getmaxyx(stdscr, scr_max_y, scr_max_x);
+		game_win = newwin(height, width, scr_max_y / 2 - height / 2, scr_max_x / 2 - width / 2);
+		keypad(game_win, true);
+		box(game_win, 0, 0);
+		refresh_all();
+		game_mat->print_plate(game_win);
+	}
+
+	inline void listen_key() {
 		while (true) {
-			if (game->is_full()) {}
-			if (KEYDOWN(VK_UP) || KEYDOWN('J')) {
-				if (game->move_up()) game->next_step();
-				std::cin.sync();
-				Sleep(100);
+			auto input_key = wgetch(game_win);
+			if ((input_key == KEY_UP || input_key == 'k') && game_mat->move_up()) {
+				game_mat->next_step();
+				game_mat->print_plate(game_win);
 				continue;
 			}
-			if (KEYDOWN(VK_DOWN) || KEYDOWN('K')) {
-				if (game->move_down()) game->next_step();
-				std::cin.sync();
-				Sleep(100);
+			if ((input_key == KEY_DOWN || input_key == 'j') && game_mat->move_up()) {
+				game_mat->next_step();
+				game_mat->print_plate(game_win);
 				continue;
 			}
-			if (KEYDOWN(VK_LEFT) || KEYDOWN('H')) {
-				if (game->move_left()) game->next_step();
-				std::cin.sync();
-				Sleep(100);
+			if ((input_key == KEY_LEFT || input_key == 'h')&& game_mat->move_left()) {
+				game_mat->next_step();
+				game_mat->print_plate(game_win);
 				continue;
 			}
-			if (KEYDOWN(VK_RIGHT) || KEYDOWN('L')) {
-				if (game->move_right()) game->next_step();
-				std::cin.sync();
-				Sleep(100);
+			if ((input_key == KEY_RIGHT || input_key == 'l') && game_mat->move_right()) {
+				game_mat->next_step();
+				game_mat->print_plate(game_win);
 				continue;
 			}
 		}
 	}
+
+private:
+	WINDOW *game_win;
+	chessPlate *game_mat;
+
+private:
+	inline void refresh_all() {
+		refresh();
+		wrefresh(game_win);
+	}
+};
+
+int main(int argc, char *argv[]) {
+	auto game = new gameWindow;
+	game->init_scr();
+	game->listen_key();
+	
+	// while(true) {
+	// 	auto input_key = wgetch(game_win);
+	// 	if (input_key == KEY_UP) {
+	// 		if (game_mat->move_up()) game_mat->next_step();
+	// 		game_mat->print_plate(game_win);
+	// 		continue;
+	// 	}
+	// }
+
+	/* end ncurses */
+	getch();
 	endwin();
 }
