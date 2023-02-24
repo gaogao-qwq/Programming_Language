@@ -32,6 +32,9 @@ html, body {
 #register-form {
 	display: none;
 }
+#forget-form {
+	display: none;
+}
 .form::before {
 	content: "";
 	width: calc(100% + 20px);
