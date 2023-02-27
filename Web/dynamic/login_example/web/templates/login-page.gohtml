@@ -29,6 +29,14 @@
 				<button type="button" id="login-switch">已有账号，登录</button>
 			</div>
 		</form>
+		<form action="/login" method="post" class="form" id="forget-form" onsubmit="return forgetCheck()">
+			<h2>找回密码</h2>
+			<input type="text" id="forget-email-input" name="email" placeholder="邮箱" maxlength="100">
+			<div class="button-container">
+				<button type="submit" id="forget-button">找回密码</button>
+				<button type="button" id="back-switch">返回</button>
+			</div>
+		</form>
 	</div>
 
 	{{if .IsSuccess}}
@@ -66,6 +74,15 @@
 				return false
 			}
 			return true
+		}
+
+		function forgetCheck() {
+			const form = document.getElementById('forget-form')
+
+			if (!form['forget-email-input'].value) {
+				alert('找回密码邮箱不能为空')
+				return false;
+			}
 		}
 	</script>
 	<script src="/web/static/login-page-script.js"></script>

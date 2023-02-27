@@ -27,7 +27,6 @@ func init() {
 
 func checkErr(err error) bool {
 	if err != nil {
-		panic(err)
 		return false
 	}
 	return true
@@ -67,7 +66,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 连接数据库
-	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/test_db?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai")
+	db, err := sql.Open("mysql", "gaogao-qwq:gaogao-qwq@tcp(192.168.50.159:3306)/test_db?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai")
 	if !checkErr(err) {
 		fmt.Println("无法连接至数据库")
 		tmpl := template.Must(template.ParseFiles("web/templates/login-page.gohtml"))
