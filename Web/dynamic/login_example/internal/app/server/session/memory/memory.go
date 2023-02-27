@@ -45,9 +45,9 @@ func (st *SessionStore) SessionID() string {
 }
 
 type Provider struct {
-	lock     sync.Mutex               //用来锁
-	sessions map[string]*list.Element //用来存储在内存
-	list     *list.List               //用来做gc
+	lock     sync.Mutex               // 用来锁
+	sessions map[string]*list.Element // 用来存储在内存
+	list     *list.List               // 用来做gc
 }
 
 func (providers *Provider) SessionInit(sid string) (session.Session, error) {
