@@ -1,0 +1,51 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"net"
+	"os"
+)
+
+func main() {
+	// 连接服务器
+	conn, err := net.Dial("tcp", "127.0.0.1:8080")
+	if err != nil {
+		fmt.Println("Error connecting to server: ", err)
+		return
+	}
+	defer conn.Close()
+
+	// 起一个协程接收信息
+	go readMessage(conn)
+	// 发送信息
+	sendMessage(conn)
+}
+
+func readMessage(conn net.Conn) {
+	buffer := make([]byte, 1024)
+	for {
+		n, err := conn.Read(buffer)
+		if err != nil {
+			fmt.Println("Error reading from server", err)
+			break
+		}
+		fmt.Println("\nReceived message: ", string(buffer[:n]))
+		fmt.Print("Enter message: ")
+	}
+}
+
+func sendMessage(conn net.Conn) {
+	scn := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Print("Enter message: ")
+		scn.Scan()
+		msg := scn.Text()
+
+		_, err := conn.Write([]byte(msg))
+		if err != nil {
+			fmt.Println("Error writing to server", err)
+			break
+		}
+	}
+}
