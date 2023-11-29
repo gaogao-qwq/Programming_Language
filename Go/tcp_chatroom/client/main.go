@@ -16,6 +16,21 @@ func main() {
 	}
 	defer conn.Close()
 
+	// 输入昵称
+	fmt.Print("Enter your nickname: ")
+	scn := bufio.NewScanner(os.Stdin)
+	scn.Scan()
+	nickname := scn.Text()
+	conn.Write([]byte(nickname))
+
+	buf := make([]byte, 1024)
+	n, err := conn.Read(buf)
+	if err != nil {
+		fmt.Println("Error reading welcome from server", err)
+		return
+	}
+	fmt.Println(string(buf[:n]))
+
 	// 起一个协程接收信息
 	go readMessage(conn)
 	// 发送信息
@@ -23,14 +38,14 @@ func main() {
 }
 
 func readMessage(conn net.Conn) {
-	buffer := make([]byte, 1024)
+	buf := make([]byte, 1024)
 	for {
-		n, err := conn.Read(buffer)
+		n, err := conn.Read(buf)
 		if err != nil {
 			fmt.Println("Error reading from server", err)
 			break
 		}
-		fmt.Println("\nReceived message: ", string(buffer[:n]))
+		fmt.Println("\nReceived message from", string(buf[:n]))
 		fmt.Print("Enter message: ")
 	}
 }
