@@ -1,32 +1,47 @@
-mod entity;
+use ratatui::{backend::CrosstermBackend, Terminal};
 
-use mysql::{Pool, PooledConn, prelude::Queryable};
-use url::Url;
-
-const SHOW_DATABASE: &str = "SHOW DATABASES;";
-const CREATE_DATABASE_QUERY: &str = "CREATE DATABASE IF NOT EXISTS bank_system;";
-const USE_DATABASE_QUERY: &str = "USE bank_system;";
-
-fn init_database(conn: &mut PooledConn) -> std::result::Result<(), mysql::Error> {
-    let results: Vec<String> = conn.query(SHOW_DATABASE)?;
-    if !results.contains(&String::from("bank_system")) {
-        println!("Database not exist, creating one...");
-        conn.query_drop(CREATE_DATABASE_QUERY)?;
+use crate::{
+    dao::sql_connector::SqlConnector,
+    data_initializer::DataIntializer,
+    tui::{
+        app::App,
+        event::{EventHandler, Event},
+        tui::Tui,
+        update::update
     }
-    conn.query_drop(USE_DATABASE_QUERY)?;
-    Ok(())
-}
+};
+
+mod tui;
+mod entity;
+mod repository;
+mod service;
+mod dao;
+mod data_initializer;
 
 fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
-    let url = Url::parse("mysql://root:root@localhost:3306")?;
-
-    let pool = Pool::new(url.as_str())?;
-
-    let mut conn = pool.get_conn()?;
-    init_database(&mut conn)?;
-
+    SqlConnector::init_conn()?;
+    DataIntializer::init()?;
+    let conn = SqlConnector::get_conn();
     let version = conn.server_version();
     println!("Version: {}.{}.{}", version.0, version.1, version.2);
+    
+    let mut app = App::new();
+    let backend = CrosstermBackend::new(std::io::stderr());
+    let terminal = Terminal::new(backend)?;
+    let events = EventHandler::new(250);
+    let mut tui = Tui::new(terminal, events);
+    tui.enter()?;
 
+    while !app.should_quit {
+        tui.draw(&mut app)?;
+        match tui.events.next()? {
+            Event::Tick => {}
+            Event::Key(key_event) => update(&mut app, key_event),
+            Event::Mouse(_) => {}
+            Event::Resize(_, _) => {}
+        };
+    }
+
+    tui.exit()?;
     Ok(())
 }
