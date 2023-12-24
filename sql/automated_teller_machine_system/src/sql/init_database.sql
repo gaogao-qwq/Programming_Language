@@ -36,14 +36,6 @@ CREATE TABLE IF NOT EXISTS currency_type
     code CHAR(3) COMMENT "货币代号，固定3位"
 );
 
-INSERT INTO currency_type (code)
-VALUES ('CNY'),
-       ('HKD'),
-       ('JPY'),
-       ('KRW'),
-       ('USD'),
-       ('EUR');
-
 CREATE TABLE IF NOT EXISTS terminal
 (
     id       INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,10 +50,11 @@ CREATE TABLE IF NOT EXISTS transaction
     amount           DECIMAL(15, 2) COMMENT "交易金额",
     type             VARCHAR(10) CHECK ( type IN ('income', 'expense')) COMMENT "交易类型，income或expense",
     note             VARCHAR(255) COMMENT "交易备注",
-    currency_id      INT COMMENT "交易币种",
-    card_id          CHAR(19) PRIMARY KEY COMMENT "产生交易的银行卡外键",
+    currency_id      INT COMMENT "交易币种外键",
+    card_id          CHAR(19) COMMENT "产生交易的银行卡外键",
     terminal_id      INT COMMENT "完成该交易的终端机外键",
     FOREIGN KEY (currency_id) REFERENCES currency_type (id),
+    FOREIGN KEY (card_id) REFERENCES card (id),
     FOREIGN KEY (terminal_id) REFERENCES terminal (id)
 );
 
