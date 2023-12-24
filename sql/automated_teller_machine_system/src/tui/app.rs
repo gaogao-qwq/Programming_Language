@@ -1,9 +1,10 @@
-use super::ui::{terminal_ui::TerminalUi, customer_login_ui::CustomerLoginUi};
+use super::ui::{terminal_ui::TerminalUi, customer_login_ui::CustomerLoginUi, customer_register_ui::CustomerRegisterUi, customer_menu_ui::CustomerMenuUi};
 
 #[derive(Debug)]
 pub enum CurrentScreen {
     TerminalLogin,
     CustomerLogin,
+    CustomerRegister,
     CustomerMenu,
 }
 
@@ -11,7 +12,6 @@ pub enum CurrentScreen {
 pub enum InputMode {
     Normal,
     Insert,
-    Replace,
 }
 
 
@@ -24,6 +24,8 @@ pub struct App<'a> {
     pub input_mode: InputMode,
     pub terminal_ui: TerminalUi<'a>,
     pub customer_login_ui: CustomerLoginUi<'a>,
+    pub customer_register_ui: CustomerRegisterUi<'a>,
+    pub customer_menu_ui: CustomerMenuUi<'a>,
 }
 
 impl<'a> App<'a> {
@@ -36,6 +38,8 @@ impl<'a> App<'a> {
             input_mode: InputMode::Normal,
             terminal_ui: TerminalUi::new(),
             customer_login_ui: CustomerLoginUi::new(),
+            customer_register_ui: CustomerRegisterUi::new(),
+            customer_menu_ui: CustomerMenuUi::new(),
         }
     }
 

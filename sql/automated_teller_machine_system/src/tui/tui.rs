@@ -9,7 +9,7 @@ use crossterm::{
 pub type CrosstermTerminal =
     ratatui::Terminal<ratatui::backend::CrosstermBackend<std::io::Stderr>>;
 
-use crate::{tui::app::App, tui::event::EventHandler, tui::ui};
+use crate::{tui::app::App, tui::event::EventHandler};
 
 use super::app::CurrentScreen;
 
@@ -62,8 +62,11 @@ impl Tui {
             CurrentScreen::CustomerLogin => {
                 self.terminal.draw(|frame| app.customer_login_ui.render(frame))?;
             },
+            CurrentScreen::CustomerRegister => {
+                self.terminal.draw(|frame| app.customer_register_ui.render(frame))?;
+            }
             CurrentScreen::CustomerMenu => {
-                
+                self.terminal.draw(|frame| app.customer_menu_ui.render(frame))?;
             },
         }
         Ok(())

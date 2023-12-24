@@ -56,7 +56,7 @@ impl<'a> CustomerLoginUi<'a> {
                     .style(Style::default().fg(Color::DarkGray))
             );
 
-        let confirm_button = Paragraph::new("确认")
+        let confirm_button = Paragraph::new("登入")
             .alignment(Alignment::Center)
             .block(
                 Block::default()
@@ -135,6 +135,11 @@ impl<'a> CustomerLoginUi<'a> {
             return false;
         }
         return true;
+    }
+
+    pub fn clear_input(&mut self) {
+        self.card_id_input.delete_line_by_head();
+        self.password_input.delete_line_by_head();
     }
 
     pub fn is_input(&mut self) -> bool {
@@ -281,7 +286,7 @@ impl<'a> CustomerLoginUi<'a> {
     }
 
     fn activate_confirm_button(&mut self) {
-        self.confirm_button = Paragraph::new("确认")
+        self.confirm_button = Paragraph::new("登入")
             .alignment(Alignment::Center)
             .block(
                 Block::default()
@@ -291,7 +296,7 @@ impl<'a> CustomerLoginUi<'a> {
     }
 
     fn inactivate_confirm_button(&mut self) {
-        self.confirm_button = Paragraph::new("确认")
+        self.confirm_button = Paragraph::new("登入")
             .alignment(Alignment::Center)
             .block(
                 Block::default()

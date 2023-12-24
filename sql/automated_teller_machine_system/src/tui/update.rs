@@ -3,13 +3,14 @@ use tui_textarea::Input;
 
 use crate::tui::app::App;
 
-use super::{app::{CurrentScreen, InputMode}, ui::{terminal_ui, customer_login_ui}};
+use super::{app::{CurrentScreen, InputMode}, ui::{terminal_ui, customer_login_ui::{self}}};
 
 pub fn update(app: &mut App, key_event: KeyEvent) {
     match app.current_screen {
         CurrentScreen::TerminalLogin => update_terminal_login(app, key_event),
         CurrentScreen::CustomerLogin => update_customer_login(app, key_event),
-        _ => {}
+        CurrentScreen::CustomerRegister => update_customer_register(app, key_event),
+        CurrentScreen::CustomerMenu => update_customer_menu(app, key_event),
     }
 }
 
@@ -48,6 +49,11 @@ fn update_terminal_login(app: &mut App, key_event: KeyEvent) {
         },
         InputMode::Insert => match key_event.code {
             KeyCode::Esc => app.input_mode = InputMode::Normal,
+            KeyCode::Enter => {
+                app.terminal_ui.down();
+                if app.terminal_ui.is_input() {return}
+                app.input_mode = InputMode::Normal;
+            },
             KeyCode::Backspace => {
                 match app.terminal_ui.current_focus {
                     terminal_ui::CurrentFocus::MachineCodeInput => {
@@ -72,7 +78,6 @@ fn update_terminal_login(app: &mut App, key_event: KeyEvent) {
             },
             _ => {},
         },
-        _ => {},
     }
 }
 
@@ -96,20 +101,31 @@ fn update_customer_login(app: &mut App, key_event: KeyEvent) {
                 app.customer_login_ui.up();
             }
             KeyCode::Enter => match app.customer_login_ui.current_focus {
-                customer_login_ui::CurrentFocus::ConfirmButton => {
-                    if app.customer_login_ui.auth() {
-                        app.current_screen = CurrentScreen::CustomerMenu;
-                    }
+                customer_login_ui::CurrentFocus::ConfirmButton => 
+                    match app.customer_login_ui.auth() {
+                        true => {
+                            app.customer_login_ui.clear_input();
+                            app.current_screen = CurrentScreen::CustomerMenu
+                        },
+                        false => {},
                 },
+                customer_login_ui::CurrentFocus::RegisterButton => {
+                    app.current_screen = CurrentScreen::CustomerRegister;
+                }
                 _ => match app.customer_login_ui.is_input() {
                     true => app.input_mode = InputMode::Insert,
                     false => {},
                 },
-            }
+            },
             _ => {},
         },
         InputMode::Insert => match key_event.code {
             KeyCode::Esc => app.input_mode = InputMode::Normal,
+            KeyCode::Enter => {
+                app.customer_login_ui.down();
+                if app.customer_login_ui.is_input() {return}
+                app.input_mode = InputMode::Normal
+            },
             KeyCode::Backspace => {
                 match app.customer_login_ui.current_focus {
                     customer_login_ui::CurrentFocus::CardIdInput => {
@@ -134,6 +150,43 @@ fn update_customer_login(app: &mut App, key_event: KeyEvent) {
             },
             _ => {},
         },
-        _ => {},
     }
 }
+
+fn update_customer_register(app: &mut App, key_event: KeyEvent) {
+    match app.input_mode {
+        InputMode::Normal => match key_event.code {
+            KeyCode::Char('q') => {
+                if app.customer_register_ui.show_popup {
+                    app.terminal_ui.close_popup();
+                }
+            },
+            KeyCode::Char('c') | KeyCode::Char('C') => {
+                if key_event.modifiers == KeyModifiers::CONTROL {
+                    app.quit()
+                }
+            },
+            _ => {},
+        },
+        InputMode::Insert => match key_event.code {
+            _ => {},
+        },
+    }
+}
+
+fn update_customer_menu(app: &mut App, key_event: KeyEvent) {
+    match app.input_mode {
+        InputMode::Normal => match key_event.code {
+            KeyCode::Char('c') | KeyCode::Char('C') => {
+                if key_event.modifiers == KeyModifiers::CONTROL {
+                    app.quit()
+                }
+            },
+            _ => {},
+        },
+        InputMode::Insert => match key_event.code {
+            _ => {},
+        },
+    }
+}
+
