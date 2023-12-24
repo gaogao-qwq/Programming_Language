@@ -14,20 +14,17 @@ public class SqlConnector {
         if (conn == null) {
             try {
                 conn = DriverManager.getConnection(connectionString, user, password);
-                Runtime.getRuntime().addShutdownHook(new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (conn != null && !conn.isClosed()) {
-                                conn.close();
-                                System.out.println("MySQL connection closed on program exit.");
-                            }
-                        } catch (SQLException e) {
-                            System.out.println("Failed to close MySQL connection on program exit: " + e.getMessage());
-                            System.exit(1);
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                            System.out.println("MySQL connection closed on program exit.");
                         }
+                    } catch (SQLException e) {
+                        System.out.println("Failed to close MySQL connection on program exit: " + e.getMessage());
+                        System.exit(1);
                     }
-                });
+                }));
             } catch (Exception e) {
                 System.out.println("Failed to connect to MySQL: " + e.getMessage());
                 System.exit(1);
