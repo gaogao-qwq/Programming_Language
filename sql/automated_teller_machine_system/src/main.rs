@@ -1,6 +1,7 @@
 use ratatui::{backend::CrosstermBackend, Terminal};
 
 use crate::{
+    repository::init_repository,
     dao::sql_connector::SqlConnector,
     data_initializer::DataIntializer,
     tui::{
@@ -21,10 +22,8 @@ mod data_initializer;
 fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     SqlConnector::init_conn()?;
     DataIntializer::init()?;
-    let conn = SqlConnector::get_conn();
-    let version = conn.server_version();
-    println!("Version: {}.{}.{}", version.0, version.1, version.2);
-    
+    init_repository::init();
+
     let mut app = App::new();
     let backend = CrosstermBackend::new(std::io::stderr());
     let terminal = Terminal::new(backend)?;

@@ -11,6 +11,8 @@ pub type CrosstermTerminal =
 
 use crate::{tui::app::App, tui::event::EventHandler, tui::ui};
 
+use super::app::CurrentScreen;
+
 /// Representation of a terminal user interface.
 ///
 /// It is responsible for setting up the terminal,
@@ -52,13 +54,18 @@ impl Tui {
         Ok(())
     }
 
-
-    /// [`Draw`] the terminal interface by [`rendering`] the widgets.
-    ///
-    /// [`Draw`]: tui::Terminal::draw
-    /// [`rendering`]: crate::ui:render
     pub fn draw(&mut self, app: &mut App) -> Result<()> {
-        self.terminal.draw(|frame| ui::render(app, frame))?;
+        match app.current_screen {
+            CurrentScreen::TerminalLogin => {
+                self.terminal.draw(|frame| app.terminal_ui.render(frame))?;
+            },
+            CurrentScreen::CustomerLogin => {
+                self.terminal.draw(|frame| app.customer_login_ui.render(frame))?;
+            },
+            CurrentScreen::CustomerMenu => {
+                
+            },
+        }
         Ok(())
     }
 
