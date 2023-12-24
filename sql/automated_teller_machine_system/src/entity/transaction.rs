@@ -1,8 +1,10 @@
-#[derive(Debug, PartialEq)]
+use rust_decimal::Decimal;
+
+#[derive(Debug, PartialEq, Eq)]
 pub struct Transaction {
     id: String,
     transaction_date: String,
-    amount: f64,
+    amount: Decimal,
     transaction_type: String,
     note: String,
     currency_id: i32,
