@@ -1,6 +1,6 @@
 use mysql::prelude::Queryable;
 
-use crate::dao::sql_connector::SqlConnector;
+use crate::{dao::sql_connector::SqlConnector, repository::terminal_repository::TerminalRepository, entity::terminal::Terminal};
 
 #[derive(Debug)]
 pub struct DataIntializer {}
@@ -76,7 +76,17 @@ impl DataIntializer {
     }
 
     fn init_data() -> Result<(), mysql::Error> {
-       Ok(()) 
+        TerminalRepository::add_terminal(Terminal {
+            id: 0,
+            code: String::from("T-1"),
+            password: String::from("123456")
+        });
+        TerminalRepository::add_terminal(Terminal {
+            id: 0,
+            code: String::from("T-2"),
+            password: String::from("654321")
+        });
+        Ok(()) 
     }
 
     pub fn init() -> Result<(), mysql::Error> {
