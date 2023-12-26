@@ -46,13 +46,13 @@ public class AddDialog extends JDialog {
             return;
         }
 
-        var res = StudentRepository.addStudent(Student.builder()
+        var success = StudentRepository.addStudent(Student.builder()
                 .sno(sno)
                 .name(name)
                 .chineseScore(Integer.parseInt(chineseScore))
                 .mathScore(Integer.parseInt(mathScore))
                 .password(password).build());
-        if (res == 0) {
+        if (success) {
             JOptionPane.showMessageDialog(
                     null, "添加失败", "Opps", JOptionPane.ERROR_MESSAGE);
             return;

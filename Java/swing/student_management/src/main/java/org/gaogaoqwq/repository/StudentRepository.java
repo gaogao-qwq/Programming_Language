@@ -14,11 +14,11 @@ public class StudentRepository {
 
     private static final Connection conn = SqlConnector.getConn();
 
-    public static int addStudent(Student student) {
-        int result = 0;
+    public static boolean addStudent(Student student) {
+        boolean result;
         try {
             var statement = conn.createStatement();
-            result = statement.executeUpdate(
+            result = statement.execute(
                     format("INSERT INTO student (sno, name, password, chinese_score, math_score) " +
                             "VALUES ({0},{1},{2},{3},{4});",
                             student.getSno(),
@@ -28,7 +28,7 @@ public class StudentRepository {
                             student.getMathScore()));
         } catch (Exception e) {
             System.out.println("Failed to add student: " + e.getMessage());
-            return result;
+            return false;
         }
         return result;
     }
