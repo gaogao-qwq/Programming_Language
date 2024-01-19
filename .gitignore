@@ -4,6 +4,8 @@ Cargo.lock
 *.out
 *.zip
 *.pdb
+*.o
+*.bin
 
 .idea
 out
