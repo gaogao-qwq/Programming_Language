@@ -1,0 +1,110 @@
+@CHARSET "UTF-8";
+
+.zi {
+  width: 60%;
+  float: left;
+}
+
+.hello {
+  width: 20%;
+  float: right;
+}
+
+.borderd {
+  margin: auto;
+  width: 60%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.borderd tr,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.borderd tr:nth-child(1) {
+  font-weight: bold;
+}
+
+.borderd tr:nth-child(1) {
+  background: #69f;
+}
+
+.borderd td:nth-child(6) {
+  width: 50px;
+}
+
+
+.page_style {
+  width: 60%;
+  height: 30px;
+  margin: auto;
+  text-align: right;
+  margin-top: 30px;
+}
+
+a {
+  font-size: 15px;
+  color: #000;
+}
+
+a:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.add_container {
+  width: 500px;
+  height: 300px;
+  margin: 130px auto 0 auto;
+  background: #eee;
+  border: 2px solid #eee;
+}
+
+.add_biaoti {
+  width: 100%;
+  text-align: center;
+}
+
+.add_borderd {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.add_borderd tr,
+td {
+  padding: 10px;
+}
+
+.add_borderd td:nth-child(1) {
+  text-align: right;
+}
+
+.add_borderd td:nth-child(2) {
+  text-align: left;
+}
+
+.update_biaoti {
+  width: 100%;
+  text-align: center;
+}
+
+.update_borderd {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.update_borderd tr,
+td {
+  padding: 10px;
+}
+
+.update_borderd td:nth-child(1) {
+  text-align: right;
+}
+
+.update_borderd td:nth-child(2) {
+  text-align: left;
+}

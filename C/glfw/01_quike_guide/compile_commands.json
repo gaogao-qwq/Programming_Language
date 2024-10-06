@@ -1,0 +1,14 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-o",
+      "quick_guide.out",
+      "quick_guide.c"
+    ],
+    "directory": "/home/gaogao-qwq/repo/programming_language/C/glfw/01_quike_guide",
+    "file": "/home/gaogao-qwq/repo/programming_language/C/glfw/01_quike_guide/quick_guide.c",
+    "output": "/home/gaogao-qwq/repo/programming_language/C/glfw/01_quike_guide/quick_guide.out"
+  }
+]

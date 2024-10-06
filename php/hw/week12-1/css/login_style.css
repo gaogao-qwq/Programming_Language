@@ -1,0 +1,50 @@
+﻿@CHARSET "UTF-8";
+
+/* //register_html中的CSS */
+form {
+  margin: auto;
+}
+
+.borderd {
+  margin: auto;
+  width: 400px;
+  height: 400px;
+}
+
+.borderd .tex {
+  width: 200px;
+  height: 30px;
+}
+
+.w3 {
+  letter-spacing: 0.5em;
+}
+
+.w2 {
+  letter-spacing: 2em;
+}
+
+
+/* //login_html中的CSS */
+form {
+  margin: auto;
+}
+
+.logintb {
+  width: 400px;
+  height: 250px;
+  margin: auto;
+}
+
+.logintb .login_tex {
+  width: 200px;
+  height: 30px;
+}
+
+.logintb .login_w3 {
+  letter-spacing: 0.5em;
+}
+
+.logintb .login_w2 {
+  letter-spacing: 2em;
+}
